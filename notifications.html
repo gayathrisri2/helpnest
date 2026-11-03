@@ -1,0 +1,458 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>HelpNest - Notifications</title>
+
+    <style>
+        * {
+            box-sizing: border-box;
+        }
+
+        body {
+            margin: 0;
+            font-family: Arial, sans-serif;
+            background: #f5f7fb;
+            color: #263247;
+        }
+
+        nav {
+            background: #ffffff;
+            padding: 18px 6%;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 12px;
+            box-shadow: 0 2px 10px #0000000d;
+        }
+
+        nav h2 {
+            color: #6254d9;
+            margin: 0;
+        }
+
+        nav a {
+            text-decoration: none;
+            color: #465168;
+            margin: 5px 8px;
+            font-size: 14px;
+        }
+
+        nav a.active {
+            color: #6254d9;
+            font-weight: bold;
+        }
+
+        .container {
+            max-width: 950px;
+            margin: 35px auto;
+            padding: 0 20px;
+        }
+
+        .heading {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 12px;
+        }
+
+        .heading h1 {
+            margin-bottom: 5px;
+        }
+
+        .heading p {
+            color: #718096;
+            margin-top: 0;
+        }
+
+        button {
+            border: none;
+            padding: 10px 15px;
+            border-radius: 7px;
+            cursor: pointer;
+            font-size: 14px;
+        }
+
+        .mark-all {
+            background: #6254d9;
+            color: white;
+        }
+
+        .filters {
+            display: flex;
+            gap: 10px;
+            margin: 25px 0;
+            flex-wrap: wrap;
+        }
+
+        .filter-btn {
+            background: white;
+            color: #465168;
+            border: 1px solid #dce1eb;
+        }
+
+        .filter-btn.active {
+            background: #6254d9;
+            color: white;
+            border-color: #6254d9;
+        }
+
+        .notification {
+            background: white;
+            padding: 20px;
+            margin-bottom: 14px;
+            border-radius: 12px;
+            border: 1px solid #e2e7f0;
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+            gap: 15px;
+        }
+
+        .notification.unread {
+            border-left: 5px solid #6254d9;
+            background: #faf9ff;
+        }
+
+        .notification h3 {
+            margin: 0 0 8px;
+            font-size: 17px;
+        }
+
+        .notification p {
+            margin: 0 0 10px;
+            color: #667085;
+            line-height: 1.5;
+        }
+
+        .notification small {
+            color: #8a94a6;
+        }
+
+        .read-btn {
+            background: #e9e6ff;
+            color: #5143c5;
+            white-space: nowrap;
+        }
+
+        .read-label {
+            color: #218653;
+            font-size: 13px;
+            font-weight: bold;
+        }
+
+        .empty {
+            text-align: center;
+            padding: 45px 15px;
+            background: white;
+            border-radius: 12px;
+            color: #718096;
+        }
+
+        #message {
+            margin: 12px 0;
+            color: #218653;
+        }
+
+        @media (max-width: 600px) {
+            .notification {
+                flex-direction: column;
+            }
+
+            nav {
+                align-items: flex-start;
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+<nav>
+    <h2>HelpNest</h2>
+    <div>
+        <a href="dashboard.html">Dashboard</a>
+        <a href="create-ticket.html">Create Ticket</a>
+        <a href="my-tickets.html">My Tickets</a>
+        <a href="notifications.html" class="active">Notifications</a>
+        <a href="faq.html">FAQ</a>
+        <a href="profile.html">Profile</a>
+    </div>
+</nav>
+
+<main class="container">
+
+    <div class="heading">
+        <div>
+            <h1>Notifications</h1>
+            <p>View and manage your ticket notifications.</p>
+        </div>
+
+        <button class="mark-all" id="markAllBtn">
+            Mark All as Read
+        </button>
+    </div>
+
+    <div class="filters">
+        <button class="filter-btn active" data-filter="All">All (0)</button>
+        <button class="filter-btn" data-filter="Unread">Unread (0)</button>
+        <button class="filter-btn" data-filter="Read">Read (0)</button>
+    </div>
+
+    <p id="message"></p>
+    <div id="notificationsList"></div>
+
+</main>
+
+<script src="js/app.js"></script>
+
+<script>
+(function () {
+    const list = document.getElementById("notificationsList");
+    const filterButtons = document.querySelectorAll("[data-filter]");
+    const markAllBtn = document.getElementById("markAllBtn");
+    const message = document.getElementById("message");
+
+    let currentFilter = "All";
+
+    function getArray(key) {
+        try {
+            const data = JSON.parse(localStorage.getItem(key) || "[]");
+            return Array.isArray(data) ? data : [];
+        } catch (error) {
+            return [];
+        }
+    }
+
+    function saveArray(key, data) {
+        localStorage.setItem(key, JSON.stringify(data));
+    }
+
+    function getEmail() {
+        try {
+            const user = JSON.parse(
+                localStorage.getItem("hn_currentUser") || "null"
+            );
+            return user ? (user.email || user.username || "") : "";
+        } catch (error) {
+            return "";
+        }
+    }
+
+    function getNotifications() {
+        let notifications = getArray("hn_notifications");
+        const email = getEmail();
+
+        if (email) {
+            notifications = notifications.filter(function (item) {
+                return !item.email ||
+                    item.email.toLowerCase() === email.toLowerCase();
+            });
+        }
+
+        // Give older tickets a notification if they do not have one yet.
+        const tickets = getArray("hn_tickets");
+
+        tickets.forEach(function (ticket) {
+            if (email && ticket.email &&
+                ticket.email.toLowerCase() !== email.toLowerCase()) {
+                return;
+            }
+
+            const ticketId = String(ticket.id || ticket.ticketId || "");
+            const alreadyExists = notifications.some(function (item) {
+                return String(item.ticketId || "") === ticketId;
+            });
+
+            if (!alreadyExists) {
+                notifications.push({
+                    id: "ticket-" + ticketId,
+                    ticketId: ticketId,
+                    email: ticket.email || email,
+                    title: "Ticket Created",
+                    message: "Your ticket '" +
+                        (ticket.title || "Support Ticket") +
+                        "' has been created successfully.",
+                    read: false,
+                    createdAt: ticket.createdAt || new Date().toISOString()
+                });
+            }
+        });
+
+        return notifications;
+    }
+
+    function render() {
+        const notifications = getNotifications();
+
+        const allCount = notifications.length;
+        const unreadCount = notifications.filter(function (item) {
+            return item.read !== true;
+        }).length;
+        const readCount = allCount - unreadCount;
+
+        filterButtons.forEach(function (button) {
+            const type = button.dataset.filter;
+            button.classList.toggle("active", type === currentFilter);
+
+            if (type === "All") button.textContent = "All (" + allCount + ")";
+            if (type === "Unread") button.textContent = "Unread (" + unreadCount + ")";
+            if (type === "Read") button.textContent = "Read (" + readCount + ")";
+        });
+
+        const shown = notifications.filter(function (item) {
+            if (currentFilter === "Read") return item.read === true;
+            if (currentFilter === "Unread") return item.read !== true;
+            return true;
+        });
+
+        list.innerHTML = "";
+
+        if (shown.length === 0) {
+            list.innerHTML =
+                '<div class="empty">No ' +
+                currentFilter.toLowerCase() +
+                ' notifications found.</div>';
+            return;
+        }
+
+        shown.forEach(function (item) {
+            const card = document.createElement("div");
+            card.className = "notification" +
+                (item.read === true ? "" : " unread");
+
+            const content = document.createElement("div");
+
+            const title = document.createElement("h3");
+            title.textContent = item.title || "Ticket Notification";
+
+            const description = document.createElement("p");
+            description.textContent = item.message ||
+                "There is an update about your support ticket.";
+
+            const date = document.createElement("small");
+            if (item.createdAt) {
+                const parsedDate = new Date(item.createdAt);
+                date.textContent = isNaN(parsedDate.getTime())
+                    ? ""
+                    : parsedDate.toLocaleString();
+            }
+
+            content.appendChild(title);
+            content.appendChild(description);
+            content.appendChild(date);
+
+            if (item.read === true) {
+                const label = document.createElement("div");
+                label.className = "read-label";
+                label.textContent = "✓ Read";
+                content.appendChild(label);
+            }
+
+            card.appendChild(content);
+
+            if (item.read !== true) {
+                const button = document.createElement("button");
+                button.className = "read-btn";
+                button.textContent = "Mark as Read";
+
+                button.addEventListener("click", function () {
+                    updateReadStatus(item, false);
+                });
+
+                card.appendChild(button);
+            }
+
+            list.appendChild(card);
+        });
+    }
+
+    function updateReadStatus(item, all) {
+        const saved = getArray("hn_notifications");
+        let changed = false;
+
+        saved.forEach(function (notification) {
+            const sameId = String(notification.id) === String(item.id);
+            const sameTicket = notification.ticketId &&
+                String(notification.ticketId) === String(item.ticketId);
+
+            if (all || sameId || sameTicket) {
+                notification.read = true;
+                changed = true;
+            }
+        });
+
+        // Persist generated notifications too, so Read remains available.
+        const allNotifications = getNotifications();
+
+        allNotifications.forEach(function (notification) {
+            if (all || String(notification.id) === String(item.id)) {
+                notification.read = true;
+            }
+        });
+
+        saveArray("hn_notifications", allNotifications);
+
+        // Store the read state separately to preserve it for older tickets.
+        const receipts = getArray("hn_notification_reads");
+        allNotifications.forEach(function (notification) {
+            if (all || String(notification.id) === String(item.id)) {
+                const key = String(notification.id);
+                if (!receipts.some(function (receipt) {
+                    return String(receipt.id) === key;
+                })) {
+                    receipts.push({ id: key, read: true });
+                }
+            }
+        });
+        saveArray("hn_notification_reads", receipts);
+
+        message.textContent = all
+            ? "All notifications marked as read."
+            : "Notification marked as read.";
+
+        render();
+    }
+
+    // Apply saved read receipts when loading the page.
+    const originalGetNotifications = getNotifications;
+
+    function applyReceipts() {
+        const receipts = getArray("hn_notification_reads");
+        const readIds = receipts
+            .filter(function (item) { return item.read === true; })
+            .map(function (item) { return String(item.id); });
+
+        return originalGetNotifications().map(function (item) {
+            if (readIds.includes(String(item.id))) {
+                item.read = true;
+            }
+            return item;
+        });
+    }
+
+    // Use one consistent source for rendering and saving read status.
+    getNotifications = applyReceipts;
+
+    filterButtons.forEach(function (button) {
+        button.addEventListener("click", function () {
+            currentFilter = button.dataset.filter;
+            message.textContent = "";
+            render();
+        });
+    });
+
+    markAllBtn.addEventListener("click", function () {
+        updateReadStatus({}, true);
+    });
+
+    render();
+})();
+</script>
+
+</body>
+</html>

@@ -1,0 +1,324 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>HelpNest - Create Ticket</title>
+
+    <!-- Existing website CSS -->
+    <link rel="stylesheet" href="style.css">
+
+    <!-- Create Ticket page styles only -->
+    <style>
+        .ticket-page {
+            min-height: 85vh;
+            padding: 45px 20px 60px;
+            box-sizing: border-box;
+            background:
+                radial-gradient(
+                    circle at top left,
+                    rgba(139, 92, 246, 0.15),
+                    transparent 38%
+                ),
+                linear-gradient(135deg, #f7f4ff, #f1f5ff, #ffffff);
+        }
+
+        .ticket-wrapper {
+            max-width: 1000px;
+            margin: 0 auto;
+            display: grid;
+            grid-template-columns: 0.85fr 1.15fr;
+            gap: 30px;
+            align-items: stretch;
+        }
+
+        .ticket-intro {
+            padding: 38px 28px;
+            border-radius: 24px;
+            color: white;
+            background: linear-gradient(145deg, #7450dc, #4930a7);
+            box-shadow: 0 18px 45px rgba(83, 54, 164, 0.2);
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+        }
+
+        .ticket-icon {
+            width: 65px;
+            height: 65px;
+            border-radius: 19px;
+            background: rgba(255, 255, 255, 0.17);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 31px;
+            margin-bottom: 25px;
+        }
+
+        .ticket-intro h1 {
+            font-size: 32px;
+            line-height: 1.25;
+            margin: 0 0 15px;
+            color: white;
+        }
+
+        .ticket-intro p {
+            color: #eee8ff;
+            line-height: 1.8;
+            font-size: 15px;
+        }
+
+        .ticket-benefits {
+            margin-top: 22px;
+            display: grid;
+            gap: 16px;
+        }
+
+        .ticket-benefit {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            color: #ffffff;
+            font-size: 14px;
+        }
+
+        .ticket-check {
+            width: 27px;
+            height: 27px;
+            flex-shrink: 0;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: 50%;
+            background: rgba(255, 255, 255, 0.18);
+        }
+
+        .ticket-form-card {
+            padding: 34px;
+            border-radius: 24px;
+            background: #ffffff;
+            border: 1px solid #ece7fa;
+            box-shadow: 0 18px 45px rgba(65, 45, 120, 0.09);
+        }
+
+        .ticket-form-heading {
+            margin-bottom: 25px;
+        }
+
+        .ticket-form-heading h2 {
+            margin: 0 0 9px;
+            font-size: 25px;
+            color: #34245e;
+        }
+
+        .ticket-form-heading p {
+            margin: 0;
+            color: #89839c;
+            font-size: 14px;
+            line-height: 1.6;
+        }
+
+        .ticket-form label {
+            display: block;
+            margin: 19px 0 8px;
+            color: #43385f;
+            font-size: 13px;
+            font-weight: 700;
+        }
+
+        .ticket-form input,
+        .ticket-form select,
+        .ticket-form textarea {
+            width: 100%;
+            box-sizing: border-box;
+            padding: 13px 14px;
+            border: 1px solid #e5def3;
+            border-radius: 11px;
+            background: #fbfaff;
+            color: #302747;
+            font: inherit;
+            font-size: 14px;
+            outline: none;
+            transition: border-color 0.2s, box-shadow 0.2s;
+        }
+
+        .ticket-form input:focus,
+        .ticket-form select:focus,
+        .ticket-form textarea:focus {
+            border-color: #8661e8;
+            background: #ffffff;
+            box-shadow: 0 0 0 4px rgba(134, 97, 232, 0.12);
+        }
+
+        .ticket-form textarea {
+            min-height: 125px;
+            resize: vertical;
+            line-height: 1.6;
+        }
+
+        .ticket-submit {
+            width: 100%;
+            margin-top: 25px;
+            padding: 15px;
+            border: none;
+            border-radius: 12px;
+            background: linear-gradient(110deg, #8560eb, #633fd0);
+            color: white;
+            font-size: 15px;
+            font-weight: 700;
+            cursor: pointer;
+            box-shadow: 0 8px 20px rgba(99, 63, 208, 0.2);
+            transition: transform 0.2s, box-shadow 0.2s;
+        }
+
+        .ticket-submit:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 12px 24px rgba(99, 63, 208, 0.25);
+        }
+
+        .ticket-note {
+            margin: 16px 0 0;
+            text-align: center;
+            color: #928ba5;
+            font-size: 12px;
+            line-height: 1.6;
+        }
+
+        @media (max-width: 760px) {
+            .ticket-page {
+                padding: 25px 14px 40px;
+            }
+
+            .ticket-wrapper {
+                grid-template-columns: 1fr;
+                gap: 20px;
+            }
+
+            .ticket-intro {
+                padding: 28px 24px;
+            }
+
+            .ticket-intro h1 {
+                font-size: 27px;
+            }
+
+            .ticket-form-card {
+                padding: 25px 20px;
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+    <!-- Existing HelpNest navigation -->
+    <header>
+        <h2>HelpNest</h2>
+
+        <nav>
+            <a href="index.html">Home</a>
+            <a href="dashboard.html">Dashboard</a>
+            <a href="create-ticket.html">Create Ticket</a>
+            <a href="my-tickets.html">My Tickets</a>
+            <a href="notifications.html">Notifications</a>
+            <a href="faq.html">FAQ</a>
+            <a href="profile.html">Profile</a>
+            <button type="button" id="logoutBtn">Logout</button>
+        </nav>
+    </header>
+
+    <main class="ticket-page">
+        <div class="ticket-wrapper">
+
+            <section class="ticket-intro">
+                <div class="ticket-icon">🎫</div>
+
+                <h1>We're here to help.</h1>
+
+                <p>
+                    Facing a problem? Tell us what's happening.
+                    Our support ticket system helps you submit
+                    your issue and track its progress.
+                </p>
+
+                <div class="ticket-benefits">
+                    <div class="ticket-benefit">
+                        <span class="ticket-check">✓</span>
+                        <span>Submit your issue easily</span>
+                    </div>
+
+                    <div class="ticket-benefit">
+                        <span class="ticket-check">✓</span>
+                        <span>Track your ticket status</span>
+                    </div>
+
+                    <div class="ticket-benefit">
+                        <span class="ticket-check">✓</span>
+                        <span>Keep all support requests organized</span>
+                    </div>
+                </div>
+            </section>
+
+            <section class="ticket-form-card">
+                <div class="ticket-form-heading">
+                    <h2>Create a Ticket</h2>
+                    <p>Enter the details below so we can assist you.</p>
+                </div>
+
+                <form id="createTicketForm" class="ticket-form">
+
+                    <label for="title">Ticket Title</label>
+                    <input
+                        type="text"
+                        id="title"
+                        name="title"
+                        placeholder="Briefly describe your issue"
+                        required
+                    >
+
+                    <label for="category">Category</label>
+                    <select id="category" name="category" required>
+                        <option value="">Choose a category</option>
+                        <option value="Technical">Technical Support</option>
+                        <option value="Account">Account Issues</option>
+                        <option value="Network">Network Issues</option>
+                        <option value="Other">Other</option>
+                    </select>
+
+                    <label for="priority">Priority</label>
+                    <select id="priority" name="priority" required>
+                        <option value="">Choose priority</option>
+                        <option value="Low">Low</option>
+                        <option value="Medium">Medium</option>
+                        <option value="High">High</option>
+                    </select>
+
+                    <label for="description">Describe Your Issue</label>
+                    <textarea
+                        id="description"
+                        name="description"
+                        placeholder="Explain the problem in detail..."
+                        required
+                    ></textarea>
+
+                    <button type="submit" class="ticket-submit">
+                        Submit Ticket &rarr;
+                    </button>
+
+                    <p class="ticket-note">
+                        Please provide accurate details to help us
+                        resolve your issue efficiently.
+                    </p>
+
+                </form>
+            </section>
+
+        </div>
+    </main>
+
+    <!-- Keep the existing JavaScript functionality -->
+    <script src="js/app.js"></script>
+
+</body>
+</html>

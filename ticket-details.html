@@ -1,0 +1,234 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>HelpNest | Ticket Details</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+    <nav class="navbar">
+        <a href="index.html" class="logo">HelpNest</a>
+        <div class="nav-links">
+            <a href="dashboard.html">Dashboard</a>
+            <a href="create-ticket.html">Create Ticket</a>
+            <a href="my-tickets.html" class="active">My Tickets</a>
+            <a href="notifications.html">Notifications</a>
+            <a href="faq.html">FAQ</a>
+            <a href="profile.html">Profile</a>
+            <button type="button" id="logoutBtn" class="nav-button">Logout</button>
+        </div>
+    </nav>
+
+    <main class="page-container">
+
+        <section class="page-heading">
+            <span class="section-tag">TICKET INFORMATION</span>
+            <h1>Ticket Details</h1>
+            <p>View the complete information and current status of your ticket.</p>
+        </section>
+
+        <div class="details-actions">
+            <a href="my-tickets.html" class="btn btn-secondary">
+                ← Back to My Tickets
+            </a>
+        </div>
+
+        <section id="ticketDetailsContainer" class="ticket-details-layout">
+
+            <div class="content-card ticket-detail-main">
+
+                <div class="ticket-detail-header">
+                    <div>
+                        <span class="detail-label">Ticket ID</span>
+                        <h2 id="detailTicketId">Loading...</h2>
+                    </div>
+                    <span id="detailStatus" class="status-badge">Loading</span>
+                </div>
+
+                <div class="divider"></div>
+
+                <span class="detail-label">Ticket Title</span>
+                <h2 id="detailTitle">Loading ticket details...</h2>
+
+                <div class="detail-grid">
+                    <div class="detail-item">
+                        <span class="detail-label">Category</span>
+                        <strong id="detailCategory">—</strong>
+                    </div>
+                    <div class="detail-item">
+                        <span class="detail-label">Priority</span>
+                        <strong id="detailPriority">—</strong>
+                    </div>
+                    <div class="detail-item">
+                        <span class="detail-label">Created Date</span>
+                        <strong id="detailCreatedAt">—</strong>
+                    </div>
+                    <div class="detail-item">
+                        <span class="detail-label">Contact Email</span>
+                        <strong id="detailEmail">—</strong>
+                    </div>
+                </div>
+
+                <div class="divider"></div>
+
+                <span class="detail-label">Issue Description</span>
+                <p id="detailDescription" class="ticket-description">
+                    Ticket description will appear here.
+                </p>
+
+                <div class="divider"></div>
+
+                <div class="ticket-timeline">
+                    <h3>Ticket Progress</h3>
+                    <div class="timeline-item">
+                        <span class="timeline-dot"></span>
+                        <div>
+                            <strong>Ticket Created</strong>
+                            <p>Your support request has been submitted.</p>
+                        </div>
+                    </div>
+                    <div class="timeline-item">
+                        <span class="timeline-dot"></span>
+                        <div>
+                            <strong>Under Review</strong>
+                            <p>Your ticket may be reviewed by the support team.</p>
+                        </div>
+                    </div>
+                    <div class="timeline-item">
+                        <span class="timeline-dot"></span>
+                        <div>
+                            <strong>Resolution</strong>
+                            <p>The ticket status will update when its progress changes.</p>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+
+            <aside class="content-card ticket-detail-sidebar">
+                <div class="feature-icon">🎫</div>
+                <h2>Ticket Summary</h2>
+                <p>Keep your ticket ID for future reference.</p>
+
+                <div class="summary-item">
+                    <span>Status</span>
+                    <strong id="summaryStatus">—</strong>
+                </div>
+                <div class="summary-item">
+                    <span>Priority</span>
+                    <strong id="summaryPriority">—</strong>
+                </div>
+                <div class="summary-item">
+                    <span>Category</span>
+                    <strong id="summaryCategory">—</strong>
+                </div>
+
+                <a href="my-tickets.html" class="btn btn-primary details-back-btn">
+                    View All Tickets
+                </a>
+            </aside>
+
+        </section>
+
+        <section id="ticketNotFound" class="content-card empty-state" hidden>
+            <div class="empty-icon">🔎</div>
+            <h2>Ticket Not Found</h2>
+            <p>This ticket may not exist or may not be available.</p>
+            <a href="my-tickets.html" class="btn btn-primary">
+                Back to My Tickets
+            </a>
+        </section>
+
+    </main>
+
+    <footer class="home-footer">
+        <p>© 2026 HelpNest. All rights reserved.</p>
+    </footer>
+
+    <script src="js/app.js"></script>
+
+    <script>
+    document.addEventListener("DOMContentLoaded", function () {
+
+        const params = new URLSearchParams(window.location.search);
+        const ticketId = params.get("id");
+
+        const container = document.getElementById("ticketDetailsContainer");
+        const notFound = document.getElementById("ticketNotFound");
+
+        function showNotFound() {
+            container.hidden = true;
+            notFound.hidden = false;
+        }
+
+        try {
+            const user = JSON.parse(
+                localStorage.getItem("hn_currentUser") || "null"
+            );
+
+            const tickets = JSON.parse(
+                localStorage.getItem("hn_tickets") || "[]"
+            );
+
+            if (!user || !user.email || !ticketId) {
+                showNotFound();
+                return;
+            }
+
+            const ticket = tickets.find(function (item) {
+                return item.id === ticketId &&
+                    item.email &&
+                    item.email.toLowerCase() === user.email.toLowerCase();
+            });
+
+            if (!ticket) {
+                showNotFound();
+                return;
+            }
+
+            document.getElementById("detailTicketId").textContent =
+                ticket.id || "N/A";
+
+            document.getElementById("detailStatus").textContent =
+                ticket.status || "Open";
+
+            document.getElementById("detailTitle").textContent =
+                ticket.title || "Untitled Ticket";
+
+            document.getElementById("detailCategory").textContent =
+                ticket.category || "General";
+
+            document.getElementById("detailPriority").textContent =
+                ticket.priority || "Medium";
+
+            document.getElementById("detailCreatedAt").textContent =
+                ticket.createdAt || "N/A";
+
+            document.getElementById("detailEmail").textContent =
+                ticket.email || user.email;
+
+            document.getElementById("detailDescription").textContent =
+                ticket.description || "No description provided.";
+
+            document.getElementById("summaryStatus").textContent =
+                ticket.status || "Open";
+
+            document.getElementById("summaryPriority").textContent =
+                ticket.priority || "Medium";
+
+            document.getElementById("summaryCategory").textContent =
+                ticket.category || "General";
+
+        } catch (error) {
+            console.error("Unable to load ticket details:", error);
+            showNotFound();
+        }
+
+    });
+    </script>
+
+</body>
+</html>

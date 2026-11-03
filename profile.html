@@ -1,0 +1,117 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>HelpNest | My Profile</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+    <nav class="navbar">
+        <a href="index.html" class="logo">HelpNest</a>
+
+        <div class="nav-links">
+            <a href="dashboard.html">Dashboard</a>
+            <a href="create-ticket.html">Create Ticket</a>
+            <a href="my-tickets.html">My Tickets</a>
+            <a href="notifications.html">Notifications</a>
+            <a href="faq.html">FAQ</a>
+            <a href="profile.html" class="active">Profile</a>
+            <button type="button" id="logoutBtn" class="nav-button">Logout</button>
+        </div>
+    </nav>
+
+    <main class="page-container">
+
+        <section class="page-heading">
+            <span class="section-tag">ACCOUNT SETTINGS</span>
+            <h1>My Profile</h1>
+            <p>View and update your HelpNest account information.</p>
+        </section>
+
+        <section class="profile-layout">
+
+            <aside class="content-card profile-sidebar">
+                <div class="profile-avatar" id="profileAvatar">U</div>
+                <h2 id="profileDisplayName">User Name</h2>
+                <p id="profileDisplayEmail">user@example.com</p>
+                <span class="profile-role">Customer Account</span>
+
+                <div class="profile-summary">
+                    <div>
+                        <span>Total Tickets</span>
+                        <strong id="profileTicketCount">0</strong>
+                    </div>
+                    <div>
+                        <span>Resolved Tickets</span>
+                        <strong id="profileResolvedCount">0</strong>
+                    </div>
+                </div>
+            </aside>
+
+            <section class="content-card profile-form-card">
+                <h2>Personal Information</h2>
+                <p>Update your name and contact email below.</p>
+
+                <form id="profileForm">
+
+                    <div class="form-group">
+                        <label for="profileName">Full Name</label>
+                        <input
+                            type="text"
+                            id="profileName"
+                            name="fullName"
+                            placeholder="Enter your full name"
+                            maxlength="100"
+                            required
+                        >
+                    </div>
+
+                    <div class="form-group">
+                        <label for="profileEmail">Email Address</label>
+                        <input
+                            type="email"
+                            id="profileEmail"
+                            name="email"
+                            placeholder="Enter your email address"
+                            required
+                        >
+                    </div>
+
+                    <p id="profileMessage" class="message" aria-live="polite"></p>
+
+                    <button type="submit" class="btn btn-primary">
+                        Save Changes
+                    </button>
+
+                </form>
+
+                <div class="divider"></div>
+
+                <div class="profile-security">
+                    <div>
+                        <h3>Account Security</h3>
+                        <p>Always keep your login details private.</p>
+                    </div>
+                    <span class="security-icon">🔒</span>
+                </div>
+
+                <button type="button" id="profileLogoutBtn" class="btn btn-secondary">
+                    Logout
+                </button>
+
+            </section>
+
+        </section>
+
+    </main>
+
+    <footer class="home-footer">
+        <p>© 2026 HelpNest. All rights reserved.</p>
+    </footer>
+
+    <script src="js/app.js"></script>
+</body>
+</html>

@@ -1,0 +1,154 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>HelpNest | Contact Us</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+    <nav class="navbar">
+        <a href="index.html" class="logo">HelpNest</a>
+
+        <div class="nav-links">
+            <a href="index.html">Home</a>
+            <a href="about.html">About</a>
+            <a href="contact.html" class="active">Contact</a>
+            <a href="login.html">Login</a>
+            <a href="register.html" class="nav-button">Get Started</a>
+        </div>
+    </nav>
+
+    <main class="page-container">
+
+        <section class="page-heading">
+            <span class="section-tag">GET IN TOUCH</span>
+            <h1>Contact Us</h1>
+            <p>Have a question or need help? Send us a message.</p>
+        </section>
+
+        <section class="contact-layout">
+
+            <div class="content-card contact-info-card">
+                <span class="section-tag">WE'RE HERE TO HELP</span>
+                <h2>Let's Talk!</h2>
+                <p>
+                    Have questions about HelpNest? Use the contact form
+                    to describe your query. You can also visit our FAQ
+                    page for answers to common questions.
+                </p>
+
+                <div class="contact-info-item">
+                    <div class="contact-icon">📧</div>
+                    <div>
+                        <h3>Email Support</h3>
+                        <p>Use the contact form to send your enquiry.</p>
+                    </div>
+                </div>
+
+                <div class="contact-info-item">
+                    <div class="contact-icon">💬</div>
+                    <div>
+                        <h3>Support Tickets</h3>
+                        <p>Create a ticket to report an issue.</p>
+                    </div>
+                </div>
+
+                <div class="contact-info-item">
+                    <div class="contact-icon">❓</div>
+                    <div>
+                        <h3>Help Center</h3>
+                        <p>Find answers to frequently asked questions.</p>
+                        <a href="faq.html" class="text-link">Visit FAQ →</a>
+                    </div>
+                </div>
+            </div>
+
+            <div class="content-card contact-form-card">
+                <h2>Send Us a Message</h2>
+                <p>Fill in the details below.</p>
+
+                <form id="contactForm">
+
+                    <div class="form-group">
+                        <label for="contactName">Full Name *</label>
+                        <input
+                            type="text"
+                            id="contactName"
+                            name="name"
+                            placeholder="Enter your name"
+                            maxlength="100"
+                            required
+                        >
+                    </div>
+
+                    <div class="form-group">
+                        <label for="contactEmail">Email Address *</label>
+                        <input
+                            type="email"
+                            id="contactEmail"
+                            name="email"
+                            placeholder="Enter your email"
+                            required
+                        >
+                    </div>
+
+                    <div class="form-group">
+                        <label for="contactSubject">Subject *</label>
+                        <input
+                            type="text"
+                            id="contactSubject"
+                            name="subject"
+                            placeholder="What is your message about?"
+                            maxlength="150"
+                            required
+                        >
+                    </div>
+
+                    <div class="form-group">
+                        <label for="contactMessage">Your Message *</label>
+                        <textarea
+                            id="contactMessage"
+                            name="message"
+                            rows="5"
+                            placeholder="Write your message here..."
+                            minlength="10"
+                            maxlength="2000"
+                            required
+                        ></textarea>
+                    </div>
+
+                    <p id="contactFormMessage" class="message" aria-live="polite"></p>
+
+                    <button type="submit" class="btn btn-primary auth-submit">
+                        Send Message →
+                    </button>
+
+                </form>
+            </div>
+
+        </section>
+
+        <section class="help-banner">
+            <div>
+                <h2>Need to report an issue?</h2>
+                <p>Create a support ticket to track the issue's progress.</p>
+            </div>
+
+            <a href="create-ticket.html" class="btn btn-light">
+                Create Ticket →
+            </a>
+        </section>
+
+    </main>
+
+    <footer class="home-footer">
+        <p>© 2026 HelpNest. All rights reserved.</p>
+        <p>Making support simpler, one ticket at a time.</p>
+    </footer>
+
+    <script src="js/app.js"></script>
+</body>
+</html>

@@ -1,0 +1,166 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>HelpNest | User Dashboard</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+    <!-- Main Navigation -->
+    <nav class="navbar">
+        <a href="index.html" class="logo">HelpNest</a>
+
+        <div class="nav-links">
+            <a href="dashboard.html" class="active">User Dashboard</a>
+            <a href="admin-dashboard.html">Admin Dashboard</a>
+            <a href="create-ticket.html">Create Ticket</a>
+            <a href="my-tickets.html">My Tickets</a>
+            <a href="notifications.html">Notifications</a>
+            <a href="faq.html">FAQ</a>
+            <a href="profile.html">Profile</a>
+            <button type="button" id="logoutBtn" class="nav-button">Logout</button>
+        </div>
+    </nav>
+
+    <!-- Dashboard Content -->
+    <main class="page-container">
+
+        <section class="page-heading">
+            <span class="section-tag">USER OVERVIEW</span>
+            <h1>Welcome to Your Dashboard!</h1>
+            <p>Track your support requests and stay updated on their progress.</p>
+        </section>
+
+        <!-- Ticket Statistics -->
+        <section class="stats-grid">
+
+            <article class="stat-card">
+                <div class="stat-icon">🎫</div>
+                <p>Total Tickets</p>
+                <h2 id="totalTickets">0</h2>
+                <span>All your support requests</span>
+            </article>
+
+            <article class="stat-card">
+                <div class="stat-icon">⏳</div>
+                <p>Open Tickets</p>
+                <h2 id="openTickets">0</h2>
+                <span>Tickets awaiting resolution</span>
+            </article>
+
+            <article class="stat-card">
+                <div class="stat-icon">⚙️</div>
+                <p>In Progress</p>
+                <h2 id="progressTickets">0</h2>
+                <span>Tickets being handled</span>
+            </article>
+
+            <article class="stat-card">
+                <div class="stat-icon">✅</div>
+                <p>Resolved Tickets</p>
+                <h2 id="resolvedTickets">0</h2>
+                <span>Successfully completed tickets</span>
+            </article>
+
+        </section>
+
+        <!-- Recent Tickets and Quick Actions -->
+        <section class="dashboard-content">
+
+            <div class="content-card">
+                <div class="section-heading">
+                    <div>
+                        <h2>Recent Tickets</h2>
+                        <p>Your latest support requests</p>
+                    </div>
+                    <a href="my-tickets.html" class="text-link">View All →</a>
+                </div>
+
+                <div id="recentTickets" class="ticket-list">
+                    <div class="empty-state">
+                        <div class="empty-icon">📭</div>
+                        <h3>No tickets yet</h3>
+                        <p>Your recent tickets will appear here after you create one.</p>
+                    </div>
+                </div>
+
+                <a href="create-ticket.html" class="btn btn-primary">
+                    + Create New Ticket
+                </a>
+            </div>
+
+            <div class="content-card quick-actions">
+                <h2>Quick Actions</h2>
+                <p>What would you like to do today?</p>
+
+                <a href="create-ticket.html" class="action-link">
+                    <span class="action-icon">✍️</span>
+                    <span>
+                        <strong>Create a Ticket</strong>
+                        <small>Report a new issue</small>
+                    </span>
+                    <span>→</span>
+                </a>
+
+                <a href="my-tickets.html" class="action-link">
+                    <span class="action-icon">📋</span>
+                    <span>
+                        <strong>My Tickets</strong>
+                        <small>View and track requests</small>
+                    </span>
+                    <span>→</span>
+                </a>
+
+                <a href="notifications.html" class="action-link">
+                    <span class="action-icon">🔔</span>
+                    <span>
+                        <strong>Notifications</strong>
+                        <small>Check recent updates</small>
+                    </span>
+                    <span>→</span>
+                </a>
+
+                <a href="faq.html" class="action-link">
+                    <span class="action-icon">💡</span>
+                    <span>
+                        <strong>Help Center</strong>
+                        <small>Find answers to questions</small>
+                    </span>
+                    <span>→</span>
+                </a>
+
+                <a href="admin-dashboard.html" class="action-link">
+                    <span class="action-icon">🛡️</span>
+                    <span>
+                        <strong>Admin Dashboard</strong>
+                        <small>Open ticket administration</small>
+                    </span>
+                    <span>→</span>
+                </a>
+            </div>
+
+        </section>
+
+        <!-- Help Banner -->
+        <section class="help-banner">
+            <div>
+                <h2>Need help with something?</h2>
+                <p>Create a support ticket and our team can review your request.</p>
+            </div>
+            <a href="create-ticket.html" class="btn btn-light">
+                Get Support →
+            </a>
+        </section>
+
+    </main>
+
+    <footer class="home-footer">
+        <p>© 2026 HelpNest. All rights reserved.</p>
+    </footer>
+
+    <script src="js/app.js"></script>
+</body>
+</html>
